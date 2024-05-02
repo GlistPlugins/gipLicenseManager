@@ -282,11 +282,11 @@ int gipLicenseManager::loadLicense() {
 		std::string license = generateTrialLicense();
 		int licensetype = getLicenseType(license);
 		std::string licenseenddate = getLicenseEndDate(license);
-		gLogi("LicenseManager") << "Generated Trial License:" << license;
+//		gLogi("LicenseManager") << "Generated Trial License:" << license;
 //		gLogi("LicenseManager") << "is License Valid:" << isLicenseValid(license);
 //		gLogi("LicenseManager") << "is License Expired:" << isLicenseExpired();
 //		gLogi("LicenseManager") << "License Type:" << licensetype;
-		gLogi("LicenseManager") << "License End Date:" << licenseenddate;
+//		gLogi("LicenseManager") << "License End Date:" << licenseenddate;
 		saveLicense(license);
 		saveLicenseOwnerName("");
 		loadLicense();
@@ -305,9 +305,9 @@ int gipLicenseManager::loadLicense() {
 	if(getLicenseDurationType(getLicenseType(license)) == DURATIONTYPE_INFINITE) isexpired = false;
 	saveGlistCompileId();
 //	gLogi("LicenseManager") << "License loaded:" << isLicenseLoaded();
-	gLogi("LicenseManager") << "License:" << getLicense();
-	gLogi("LicenseManager") << "License Type:" << getLicenseType();
-	gLogi("LicenseManager") << "License End Date:" << getLicenseEndDate();
+//	gLogi("LicenseManager") << "License:" << getLicense();
+//	gLogi("LicenseManager") << "License Type:" << getLicenseType();
+//	gLogi("LicenseManager") << "License End Date:" << getLicenseEndDate();
 	return LOADING_OK;
 }
 
@@ -549,7 +549,7 @@ std::string gipLicenseManager::generateLicense(int licenseType) {
 	lic[orderingscheme[osno][4]] = chars[l4];
 
 	std::string md5 = gAES::encodeMD5(wsc);
-	gLogi("LM") << "MD5 1:" << md5;
+//	gLogi("LM") << "MD5 1:" << md5;
 
 	int mno = md5startno - 1;
 	for(int i = 0; i < letternum; i++) {
@@ -619,8 +619,8 @@ bool gipLicenseManager::isLicenseValid(std::string licenseStr) {
 			sc = md5[md5no];
 		} while(getControlCharNo(sc) == -1);
 		if(lic.substr(i, 1) != gToUpper(std::string(1, sc))) {
-			gLogi("LM") << "NON VALID i:" << i << ", lic:" << lic.substr(i, 1) << ", md5no:" << md5no << ", md5:" << gToUpper(std::string(1, sc));
-			gLogi("LM") << "md5:" << md5;
+//			gLogi("LM") << "NON VALID i:" << i << ", lic:" << lic.substr(i, 1) << ", md5no:" << md5no << ", md5:" << gToUpper(std::string(1, sc));
+//			gLogi("LM") << "md5:" << md5;
 			valid = false;
 			break;
 		}
@@ -846,7 +846,7 @@ void gipLicenseManager::printoutOrderingScheme() {
 		ostr += o1;
 	}
 	ostr += "};";
-	gLogi("gCanvas") << ostr;
+//	gLogi("gCanvas") << ostr;
 }
 
 void gipLicenseManager::printoutAdditionScheme() {
@@ -863,7 +863,7 @@ void gipLicenseManager::printoutAdditionScheme() {
 		ostr += o1;
 	}
 	ostr += "};";
-	gLogi("gCanvas") << ostr;
+//	gLogi("gCanvas") << ostr;
 }
 
 bool gipLicenseManager::saveGlistCompileId() {
