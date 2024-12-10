@@ -14,9 +14,11 @@
 
 class gipLicenseManager : public gBaseComponent{
 public:
+	static const int licensenum = 14;
+
 	enum {
 		LICENSE_INVALID,
-		LICENSE_TRIAL_1MONTH_OFFLINE,
+		LICENSE_TRIAL_OFFLINE,
 
 		LICENSE_STUDENT_1YEAR,
 		LICENSE_OEM_1YEAR,
@@ -162,6 +164,15 @@ public:
 	 */
 	int getLicenseEndDateInt(std::string licenseStr);
 
+	/**
+	 * Returns the name of the given license type.
+	 *
+	 * @param licenseType License type to check its name
+	 *
+	 * @return License name as string
+	 */
+	std::string getLicenseName(int licenseType);
+
 	int getLicenseCheckType(int licenseType);
 	int getLicenseDurationType(int licenseType);
 	int getLicenseRenewalType(int licenseType);
@@ -239,6 +250,8 @@ private:
 
 	int charnum;
 	int orderingschemenum;
+
+	std::vector<std::string> licensename;
 
 	std::string developercompanyname;
 	std::string softwarename;
