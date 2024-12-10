@@ -12,6 +12,15 @@ std::string gipLicenseManager::foldername = "User\\Profile";
 
 
 gipLicenseManager::gipLicenseManager() {
+
+	licensename = {
+			"LICENSE_INVALID", "LICENSE_TRIAL_OFFLINE",
+			"LICENSE_STUDENT_1YEAR", "LICENSE_OEM_1YEAR", "LICENSE_ACADEMIC_4YEAR",
+			"LICENSE_PERSONAL_SUBSCRIPTION", "LICENSE_BUSINESS_SUBSCRIPTION", "LICENSE_GOVERNMENTAL_SUBSCRIPTION", "LICENSE_OEM_SUBSCRIPTION",
+			"LICENSE_PERSONAL_INFINITE", "LICENSE_BUSINESS_INFINITE", "LICENSE_GOVERNMENTAL_INFINITE", "LICENSE_OEM_INFINITE",
+			"LICENSE_INDUSTRIAL_INFINITE_OFFLINE"
+	};
+
 	licensechecktype = {
 			CHECKTYPE_NONE, CHECKTYPE_OFFLINE,
 			CHECKTYPE_ONLINE, CHECKTYPE_ONLINE, CHECKTYPE_ONLINE,
@@ -48,16 +57,16 @@ gipLicenseManager::gipLicenseManager() {
 	controlchars = "23456789abcdefghjklmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
 	charnum = chars.length();
 	orderingschemenum = charnum;
-	generateAppUID();
+	appguid = generateAppUID();
 
 	developercompanyname = "Glist_Developer";
-	softwarename = "GlistApp";
+	softwarename = "glapp";
 	glistproductid = softwarename;
 	glistcompileid = "000000";
 	glistcompileidabbr = "01x12";
 	fullpath = "SOFTWARE\\" + developercompanyname + "\\" + softwarename + "\\" + foldername;
-	glistenginepath = "SOFTWARE\\GlistEngine\\Apps\\" + softwarename;
-	glistenginepath2 = "SOFTWARE\\GlistEngine\\Engine\\Compile\\";
+	glistenginepath = "SOFTWARE\\Openglsx1\\Apps\\" + softwarename;
+	glistenginepath2 = "SOFTWARE\\Openglsx1\\Engine\\Compile\\";
 	registryhive = REGISTRYHIVE_LOCALMACHINE;
 	registryhivekey = HKEY_LOCAL_MACHINE;
 
@@ -84,8 +93,8 @@ gipLicenseManager::gipLicenseManager() {
 	wsno = 0;
 
 	maxtrialdate = "691231";
-	licenseenddate = getDate(30);
-	licensetype = LICENSE_TRIAL_1MONTH_OFFLINE;
+	licenseenddate = getDate(7);
+	licensetype = LICENSE_TRIAL_OFFLINE;
 	secretword = "GlistEngine";
 	secretword2 = "Development";
 	wordlist = {licenseenddate, gToStr(licensetype), secretword, secretword};
@@ -108,7 +117,7 @@ bool gipLicenseManager::initialize(std::string companyName, std::string software
 	fullpath = "SOFTWARE\\" + developercompanyname + "\\" + softwarename + "\\" + foldername;
 	if(glistProductId == "") glistProductId = softwarename;
 	glistproductid = glistProductId;
-	glistenginepath = "SOFTWARE\\GlistEngine\\Apps\\" + glistproductid;
+	glistenginepath = "SOFTWARE\\Openglsx1\\Apps\\" + glistproductid;
 	glistcompileid = glistCompileId;
 
 	registryhive = registryHive;
@@ -276,6 +285,7 @@ int gipLicenseManager::loadLicense() {
 
 		if(isLicenseExpired(licread)) {
 			gLoge("LicenseManager") << "The license is expired!";
+			isexpired = true;
 			return LOADING_EXPIRED;
 		}
 	} else if(!isavail && !isbefore) {
@@ -460,6 +470,10 @@ int gipLicenseManager::getLicenseType() {
 	return licensetype;
 }
 
+std::string gipLicenseManager::getLicenseName(int licenseType) {
+	return licensename[licenseType];
+}
+
 std::string gipLicenseManager::generateAppUID() {
 	std::string wuid = gToUpper(gAES::encodeMD5("L" + gWindows::getMachineGUID()));
 	std::string auid = "";
@@ -513,11 +527,11 @@ std::string gipLicenseManager::getSecretWord2() {
 }
 
 std::string gipLicenseManager::generateTrialLicense() {
-	return generateLicense(LICENSE_TRIAL_1MONTH_OFFLINE);
+	return generateLicense(LICENSE_TRIAL_OFFLINE);
 }
 
 std::string gipLicenseManager::generateLicense(int licenseType) {
-	int daynum[] = {0, 30, 365, 365, 1461, 30, 30, 30, 30, 17532, 17532, 17532, 17532, 17532};
+	int daynum[] = {0, 7, 365, 365, 1461, 30, 30, 30, 30, 17532, 17532, 17532, 17532, 17532};
 	std::string lic = std::string(letternum, '*');
 	std::string enddate = getDate(daynum[licenseType]);
 	if(getLicenseDurationType(licenseType) == DURATIONTYPE_INFINITE) enddate = "991231";
