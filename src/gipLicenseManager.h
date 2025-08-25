@@ -14,11 +14,12 @@
 
 class gipLicenseManager : public gBaseComponent{
 public:
-	static const int licensenum = 14;
+	static const int licensenum = 15;
 
 	enum {
 		LICENSE_INVALID,
 		LICENSE_TRIAL_OFFLINE,
+		LICENSE_FREE_OFFLINE,
 
 		LICENSE_STUDENT_1YEAR,
 		LICENSE_OEM_1YEAR,
