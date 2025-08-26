@@ -14,7 +14,7 @@ std::string gipLicenseManager::foldername = "User\\Profile";
 gipLicenseManager::gipLicenseManager() {
 
 	licensename = {
-			"LICENSE_INVALID", "LICENSE_TRIAL_OFFLINE",
+			"LICENSE_INVALID", "LICENSE_TRIAL_OFFLINE", "LICENSE_FREE_OFFLINE",
 			"LICENSE_STUDENT_1YEAR", "LICENSE_OEM_1YEAR", "LICENSE_ACADEMIC_4YEAR",
 			"LICENSE_PERSONAL_SUBSCRIPTION", "LICENSE_BUSINESS_SUBSCRIPTION", "LICENSE_GOVERNMENTAL_SUBSCRIPTION", "LICENSE_OEM_SUBSCRIPTION",
 			"LICENSE_PERSONAL_INFINITE", "LICENSE_BUSINESS_INFINITE", "LICENSE_GOVERNMENTAL_INFINITE", "LICENSE_OEM_INFINITE",
@@ -22,7 +22,7 @@ gipLicenseManager::gipLicenseManager() {
 	};
 
 	licensechecktype = {
-			CHECKTYPE_NONE, CHECKTYPE_OFFLINE,
+			CHECKTYPE_NONE, CHECKTYPE_OFFLINE, CHECKTYPE_OFFLINE,
 			CHECKTYPE_ONLINE, CHECKTYPE_ONLINE, CHECKTYPE_ONLINE,
 			CHECKTYPE_ONLINE, CHECKTYPE_ONLINE, CHECKTYPE_ONLINE, CHECKTYPE_ONLINE,
 			CHECKTYPE_ONLINE, CHECKTYPE_ONLINE, CHECKTYPE_ONLINE, CHECKTYPE_ONLINE,
@@ -30,7 +30,7 @@ gipLicenseManager::gipLicenseManager() {
 	};
 
 	licensedurationtype = {
-			DURATIONTYPE_NONE, DURATIONTYPE_LIMITED,
+			DURATIONTYPE_NONE, DURATIONTYPE_LIMITED, DURATIONTYPE_INFINITE,
 			DURATIONTYPE_LIMITED, DURATIONTYPE_LIMITED, DURATIONTYPE_LIMITED,
 			DURATIONTYPE_LIMITED, DURATIONTYPE_LIMITED, DURATIONTYPE_LIMITED, DURATIONTYPE_LIMITED,
 			DURATIONTYPE_INFINITE, DURATIONTYPE_INFINITE, DURATIONTYPE_INFINITE, DURATIONTYPE_INFINITE,
@@ -38,7 +38,7 @@ gipLicenseManager::gipLicenseManager() {
 	};
 
 	licenserenewaltype = {
-			RENEWALTYPE_NONE, RENEWALTYPE_NONE,
+			RENEWALTYPE_NONE, RENEWALTYPE_NONE, RENEWALTYPE_FULL,
 			RENEWALTYPE_NONE, RENEWALTYPE_NONE, RENEWALTYPE_NONE,
 			RENEWALTYPE_SUBSCRIPTION, RENEWALTYPE_SUBSCRIPTION, RENEWALTYPE_SUBSCRIPTION, RENEWALTYPE_SUBSCRIPTION,
 			RENEWALTYPE_FULL, RENEWALTYPE_FULL, RENEWALTYPE_FULL, RENEWALTYPE_FULL,
@@ -46,7 +46,7 @@ gipLicenseManager::gipLicenseManager() {
 	};
 
 	licenseusagetype = {
-			USAGETYPE_NONE, USAGETYPE_TRIAL,
+			USAGETYPE_NONE, USAGETYPE_TRIAL, USAGETYPE_ACTUAL,
 			USAGETYPE_ACTUAL, USAGETYPE_ACTUAL, USAGETYPE_ACTUAL,
 			USAGETYPE_ACTUAL, USAGETYPE_ACTUAL, USAGETYPE_ACTUAL, USAGETYPE_ACTUAL,
 			USAGETYPE_ACTUAL, USAGETYPE_ACTUAL, USAGETYPE_ACTUAL, USAGETYPE_ACTUAL,
@@ -289,13 +289,16 @@ int gipLicenseManager::loadLicense() {
 			return LOADING_EXPIRED;
 		}
 	} else if(!isavail && !isbefore) {
-		std::string license = generateTrialLicense();
+		//std::string license = generateTrialLicense();
+		std::string license = generateLicense(LICENSE_FREE_OFFLINE);
 		int licensetype = getLicenseType(license);
 		std::string licenseenddate = getLicenseEndDate(license);
+		std::string licensename = getLicenseName(licensetype);
 //		gLogi("LicenseManager") << "Generated Trial License:" << license;
 //		gLogi("LicenseManager") << "is License Valid:" << isLicenseValid(license);
 //		gLogi("LicenseManager") << "is License Expired:" << isLicenseExpired();
 //		gLogi("LicenseManager") << "License Type:" << licensetype;
+//		gLogi("LicenseManager") << "License Name:" << licensename;
 //		gLogi("LicenseManager") << "License End Date:" << licenseenddate;
 		saveLicense(license);
 		saveLicenseOwnerName("");
