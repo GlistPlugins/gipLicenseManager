@@ -279,12 +279,12 @@ int gipLicenseManager::loadLicense() {
 //		gLogi("LicenseManager") << "License avaliable";
 		std::string licread = readLicense();
 		if(!isLicenseValid(licread)) {
-			gLoge("LicenseManager") << "License is not valid!";
+//			gLoge("LicenseManager") << "License is not valid!";
 			return LOADING_INVALID;
 		}
 
 		if(isLicenseExpired(licread)) {
-			gLoge("LicenseManager") << "The license is expired!";
+//			gLoge("LicenseManager") << "The license is expired!";
 			isexpired = true;
 			return LOADING_EXPIRED;
 		}
@@ -305,7 +305,7 @@ int gipLicenseManager::loadLicense() {
 		loadLicense();
 		return LOADING_NEWTRIAL;
 	} else if(!isavail || !isbefore) {
-		gLogi("LicenseManager") << "License deleted";
+//		gLogi("LicenseManager") << "License deleted";
 		return LOADING_DELETED;
 	}
 
